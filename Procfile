@@ -1,1 +1,1 @@
-web: gunicorn qtrivia.wsgi
+web: gunicorn qtrivia.settings.wsgi
