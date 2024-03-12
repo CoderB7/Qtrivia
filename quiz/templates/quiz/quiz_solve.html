@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+{% load quiz_filters %}
+{% csrf_token %}
+
+{% block title %}QTrivia{% endblock %}
+
+{% block content %}
+
+  <div class="container source_container">
+    <div class="container fs-1 ">
+      {{ source_name }}
+    </div>
+      {% if source_id == 1 %}
+        {% for n in 0|range:question_amount %}
+            <div class="container question_bank_container">
+                <div class="row">
+                  <div class="col">
+                    <div class="quiz_card_background mb-4 mt-4 rounded-3 shadow-sm">
+                      <div class="card-header p-3">
+                        <h2 class="my-0 fw-normal fs-3">
+                            {{ n|add:1 }})
+                            {% for question in quiz_data %}
+                                {% if forloop.counter0 == n %}
+                                    {{ question.question.text }}
+                                {% endif %}
+                            {% endfor %}
+                        </h2>
+                      </div>
+                      <div class="card-body radio-container">
+                          {% with n_o_answers=shuffled_answers.0|length %}
+                          {% for i in 0|range:n_o_answers %}
+                              <div class="radio-box" onclick="markAsClicked(this,'{{n}}','{{ i|add:1 }}')">
+                                  <div class="number-box">
+                                     {{i|add:1}}
+                                  </div>
+                                  <input type="radio" id="answer-{{n}}-{{i|add:1}}" name="answer-{{n}}" data-question="{{n}}" data-answer="{% for answer_bank in shuffled_answers %}{% if forloop.counter0 == n %}{% for answer in answer_bank %}{% if forloop.counter0 == i%}{{ answer }}{% endif %}{% endfor %}{% endif %}{% endfor %}" required>
+                                  <label class="label_quiz_solve" for="answer-{{n}}-{{i|add:1}}">
+                                      {% for answer_bank in shuffled_answers %}
+                                            {% if forloop.counter0 == n %}
+                                                {% for answer in answer_bank %}
+                                                    {% if forloop.counter0 == i%}
+                                                        {{ answer }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                      {% endfor %}
+                                  </label>
+                              </div>
+                          {% endfor %}
+                          {% endwith %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+      {% elif source_id == 2%}
+        {% for n in 0|range:question_amount %}
+            <div class="container question_bank_container">
+                <div class="row">
+                  <div class="col">
+                    <div class="quiz_card_background mb-4 mt-4 rounded-3 shadow-sm">
+                      <div class="card-header p-3">
+                        <h2 class="my-0 fw-normal fs-3">
+                            {{ n|add:1 }})
+                            {% for question in quiz_data %}
+                                {% if forloop.counter0 == n %}
+                                    {{ question.question }}
+                                {% endif %}
+                            {% endfor %}
+                        </h2>
+                      </div>
+                      <div class="card-body radio-container">
+                          {% with n_o_answers=shuffled_answers.0|length %}
+                          {% for i in 0|range:n_o_answers %}
+                              <div class="radio-box" onclick="markAsClicked(this,'{{n}}','{{ i|add:1 }}')">
+                                  <div class="number-box">
+                                     {{i|add:1}}
+                                  </div>
+                                  <input type="radio" id="answer-{{n}}-{{i|add:1}}" name="answer-{{n}}" data-question="{{n}}" data-answer="{% for answer_bank in shuffled_answers %}{% if forloop.counter0 == n %}{% for answer in answer_bank %}{% if forloop.counter0 == i%}{{ answer }}{% endif %}{% endfor %}{% endif %}{% endfor %}" required>
+                                  <label class="label_quiz_solve" for="answer-{{n}}-{{i|add:1}}">
+                                      {% for answer_bank in shuffled_answers %}
+                                            {% if forloop.counter0 == n %}
+                                                {% for answer in answer_bank %}
+                                                    {% if forloop.counter0 == i%}
+                                                        {{ answer }}
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% endif %}
+                                      {% endfor %}
+                                  </label>
+                              </div>
+                          {% endfor %}
+                          {% endwith %}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+      {% endif %}
+    <!-- Button trigger modal -->
+    <div class="text-center p-3 ">
+        <button type="button" id="submit_button" class="btn btn-light submit_button">Submit</button>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade text-black" id="QuizOverModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content fs-4 border-primary">
+          <div class="modal-header text-bg-primary align-items-center justify-content-center">
+            <h5 class="fs-3 fw-bold" id="exampleModalLongTitle">Quiz Over</h5>
+          </div>
+
+          <div class="modal-body">
+            <h2 class="fw-bold p-2">Quiz Title: <span id="quizTitle"></span></h2>
+            <h4 class="fw-bold p-2">Score: <span id="userScore"></span></h4>
+            <a class="pr-2 py-4 fs-4" style="text-decoration: none" id="extendModal" onclick="TestsFunction(event)" href="#">View Mistakes</a>
+          </div>
+
+          <div id="TestsDiv" style="display:none">
+            <div class="modal-body">
+                <h4 class="fw-bold fs-4 text-danger">Mistakes: </h4>
+                <div id="mistakes"></div>
+            </div>
+          </div>
+          <div class="modal-footer align-items-center justify-content-center">
+            <button type="button" id="closeModalBtn" class="btn btn-primary px-5 py-2" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock %}
+
+{% block include_js %}
+    <script>
+        var mistakesData;
+        function TestsFunction(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var T = document.getElementById("TestsDiv");
+            if (T.style.display === "block") {
+                T.style.display = "none";  // Hide the MistakesDiv if it's currently displayed
+            } else {
+                T.style.display = "block";  // Otherwise, display the MistakesDiv
+                // Clear previous mistakes
+                $('#mistakes').empty();
+
+                // Populate mistakes
+                var mistakesList = '<ul class="list-group list-group-flush">';
+                for (var key in mistakesData) {
+                    if (mistakesData.hasOwnProperty(key)) {
+                        var mistake = mistakesData[key];
+                        mistakesList += `<li class="list-group-item py-3">
+                                     <div class="bg-info bg-opacity-10 border border-info">
+                                    <div class="p-3"><span class="fw-bold fs-4">${key}. ${mistake.question}<br></span></div>
+                                    <div class="p-2"><span class="fs-5 text-danger">Your Answer: ${mistake.user_answer}<br></span></div>
+                                    <div class="p-2"><span class="fs-5 text-success">Correct Answer: ${mistake.correct_answer}<br></span></div>
+                                     </div>
+                                         </li>`;
+                    }
+                }
+                mistakesList += '</ul>';
+                $('#mistakes').html(mistakesList);
+            }
+        }
+        function markAsClicked(element, questionKey, answerIndex) {
+            // Remove the 'hover' class to stop hovering effect
+            element.classList.remove('hover');
+
+            // Check if the radio-box is not already clicked
+            if (!element.classList.contains('clicked')) {
+                // Add the 'clicked' class to mark the radio-box as clicked
+                element.classList.add('clicked');
+
+                // Find the radio input based on the question key and answer index
+                var radioInputId = 'answer-' + questionKey + '-' + answerIndex;
+                var radioInput = document.getElementById(radioInputId);
+
+                // Check the radio input
+                if (radioInput) {
+                    radioInput.checked = true;
+                }
+
+                // Disable other radio-boxes in the same container
+                var container = element.closest('.radio-container');
+                var questionGroup = container.querySelectorAll('.radio-box');
+
+                questionGroup.forEach(function(box) {
+                    // Disable other radio-boxes
+                    if (box !== element) {
+                        box.classList.remove('hover');
+                        box.classList.add('disabled');
+                        // Remove 'clicked' class if previously set
+                        box.classList.remove('clicked');
+                    }
+                });
+            }
+        }
+
+               // Function to handle the AJAX request
+        function sendDataToServer() {
+            // Collect data from selected radio inputs
+            var selectedAnswers = {};
+            {% for n in 0|range:question_amount %}
+                selectedAnswers['Q{{n|add:1}}'] = [];
+                var checkedInput = document.querySelector('input[name="answer-{{n}}"]:checked');
+
+                if (checkedInput) {
+
+                    selectedAnswers['Q{{n|add:1}}'].push({
+                        answer: checkedInput.dataset.answer,
+                        question: checkedInput.dataset.question,
+                    });
+                } else {
+                    selectedAnswers['Q{{n|add:1}}'].push('not checked');
+                }
+            {% endfor %}
+
+            var endpoint = '/source/' + '{{source_slug}}' + '/solve/';
+            var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // Create and send the AJAX request
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken // Include CSRF token in the request headers
+                },
+                body: JSON.stringify(selectedAnswers),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                mistakesData = data.mistakes;
+
+                // Quiz submission was successful, redirect to quiz_over.html
+                $('#quizTitle').text(data.quiz_title);
+                $('#userScore').text(data.score);
+
+                $('#QuizOverModal').modal('show');
+                } else {
+                    // Handle any errors or display additional information
+                    console.error('Quiz submission failed.');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Add a click event listener to the submit button
+        document.getElementById('submit_button').addEventListener('click', function() {
+            sendDataToServer();
+        });
+        // Add event listener to the Modal close button
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            // Navigate to the desired page
+            window.location.href = '/';
+        });
+           // This JavaScript code runs when the page is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if the page has a message indicating a successful submission
+            var successMessage = document.querySelector('.success-message');
+            if (successMessage) {
+                // Redirect to the quiz_over.html page after a delay
+                setTimeout(function() {
+                    window.location.href = 'quiz_over.html';  // Change this to the actual URL
+                }, 500);  // Redirect after 3 seconds (adjust as needed)
+            }
+        });
+    </script>
+{% endblock %}

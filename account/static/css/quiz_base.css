@@ -1,0 +1,217 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+html {
+    box-sizing: border-box;
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    background-color: #DCF2F1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.container_nav {
+    background-color: #365486;
+    margin: 0 auto;
+    flex-direction: row;
+    min-width: 800px;
+    border-radius: 10px 10px 0 0;
+}
+
+.container_content { /* #7FC7D9 */
+    background-color: #7FC7D9;
+    margin: 0 auto;
+    flex-direction: row;
+    min-width: 800px;
+    border-radius: 0 0 10px 10px;
+}
+
+.reset_container_width {
+    max-width: 752px;
+}
+
+.account-img {
+  height: 125px;
+  width: 125px;
+  margin-right: 20px;
+  margin-bottom: 16px;
+}
+
+.account-heading {
+  font-size: 2.5rem;
+}
+
+.media {
+    background-color: #d9d9ea;
+    border-radius: 10px 10px;
+    padding: 10px;
+}
+
+.quiz_card {
+    padding: 55px 10px 10px 35px;
+}
+
+.login_field {
+    padding: 10px 10px;
+}
+
+.source_container { /* #4499a4 */
+    background-color: #3F72AF;
+    color: #e2e1e1;
+    padding: 15px;
+    width: 700px;
+    border-radius: 10px 10px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.button_color {
+    background-color: #112D4E;
+    color: white;
+}
+
+.button_color:hover {
+    background-color: #DBE2EF;
+    color: #343232;
+}
+
+
+/* from another source */
+.question_bank_container {
+    max-width: 660px;
+}
+
+.quiz_card_background {
+    background-color: #3F72AF;
+    color: white;
+    border-color: #7FC7D9;
+    border-style: solid;
+    border-width: 5px;
+
+}
+
+/* Style for the container box */
+.radio-container {
+    text-align: left;
+    padding: 10px; /* Padding for inner content */
+    width: 100%; /* Set a fixed width, adjust as needed */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+}
+
+/* Style for individual radio buttons and labels */
+input[type="radio"] {
+    display: none;
+}
+
+.label_quiz_solve {
+    color: #186092; /* Blue text color */
+    font-size: 24px; /* Readable font size */
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Smooth transitions */
+}
+
+.radio-box.clicked {
+    background-color: #3498db; /* Blue background for clicked state */
+    color: #fff; /* White text color for clicked state */
+    border-color: #2980b9; /* Darker blue border for clicked state */
+}
+
+.radio-box.clicked label{
+    color: #fff; /* White text color for clicked state */
+}
+
+.radio-box.clicked .number-box{
+    color: black;
+}
+
+.radio-box {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    color: black;
+    border: 2px solid #3498db; /* Blue color for the box border */
+    border-radius: 5px; /* Rounded corners for the box */
+    background-color: #fff; /* White background */
+    padding: 8px;
+}
+
+.radio-box:hover {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff; /* White text color on hover */
+    border-color: #2980b9; /* Darker blue border on hover */
+}
+
+.radio-box:hover label{
+    color: #fff; /* White text color on hover */
+}
+
+.radio-box:hover .number-box {
+    color: black;
+}
+
+.number-box {
+    border: 2px solid #3498db; /* Blue color for the box border */
+    border-radius: 5px; /* Rounded corners for the box */
+    background-color: #fff; /* White background */
+    padding: 8px 16px 8px 16px;
+    margin-right: 25px; /* Add margin between the number box and label */
+    transition: background-color 0.3s, border-color 0.3s; /* Smooth transitions */
+}
+
+/* Hover effect on labels */
+.radio-box:not(.clicked):hover {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff; /* White text color on hover */
+    border-color: #2980b9; /* Darker blue border on hover */
+}
+
+.radio-box:not(.clicked):hover label {
+    background-color: #3498db; /* Blue background on hover */
+    color: #fff; /* White text color on hover */
+}
+
+.submit_button {
+    background-color: #365486;
+    color: white;
+
+}
+
+/*.list-items {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    flex-wrap: wrap; !* Allow items to wrap to the next row *!*/
+/*    justify-content: space-around;*/
+/*}*/
+
+/*.quiz_card {*/
+/*    flex: 0 0 calc(33.33% - 10px); !* Set the width of each card *!*/
+/*    margin-bottom: 20px; !* Add margin between cards *!*/
+/*}*/
+

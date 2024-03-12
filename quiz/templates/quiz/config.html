@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block title %}QTrivia{% endblock %}
+
+{% block content %}
+    <div class="container source_container">
+        <div>
+            <h1 class="display-6 fw-bold">{{ source_name }} Configuration</h1>
+        </div>
+        {% if source_id == 1 %}
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if config_form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Error!</strong> Please correct the following errors:
+                            <ul>
+                                {% for field, errors in config_form.errors.items %}
+                                    {% for error in errors %}
+                                        <li><!--{{ field }}: -->{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div class="form-group login_field">
+                        <label for="amount" class="login_field fw-bold">
+                            {{ config_form_1.amount.label }}
+                        </label>
+                        <div id="amount" class="form-group login_field">
+                            {{ config_form_1.amount }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="category" class="login_field fw-bold">
+                            {{ config_form_1.category.label }}
+                        </label>
+                        <div id="category" class="form-group login_field">
+                            {{ config_form_1.category }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="difficulty" class="login_field fw-bold">
+                            {{ config_form_1.difficulty.label }}
+                        </label>
+                        <div id="difficulty" class="form-group login_field">
+                            {{ config_form_1.difficulty }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="type" class="login_field fw-bold">
+                            {{ config_form_1.type.label }}
+                        </label>
+                        <div id="type" class="form-group login_field">
+                            {{ config_form_1.type }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <button name="config_1" class="btn button_color" type="submit">Generate Quiz</button>
+                    </div>
+                </form>
+            </div>
+        {% elif source_id == 2 %}
+            <div>
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if config_form.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            <strong>Error!</strong> Please correct the following errors:
+                            <ul>
+                                {% for field, errors in config_form.errors.items %}
+                                    {% for error in errors %}
+                                        <li><!--{{ field }}: -->{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <div class="form-group login_field">
+                        <label for="amount_2" class="login_field fw-bold">
+                            {{ config_form_2.amount.label }}
+                        </label>
+                        <div id="amount_2" class="form-group login_field">
+                            {{ config_form_2.amount }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="category_2" class="login_field fw-bold">
+                            {{ config_form_2.category.label }}
+                        </label>
+                        <div id="category_2" class="form-group login_field">
+                            {{ config_form_2.category }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="difficulty_2" class="login_field fw-bold">
+                            {{ config_form_2.difficulty.label }}
+                        </label>
+                        <div id="difficulty_2" class="form-group login_field">
+                            {{ config_form_2.difficulty }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <label for="type_2" class="login_field fw-bold">
+                            {{ config_form_2.type.label }}
+                        </label>
+                        <div id="type_2" class="form-group login_field">
+                            {{ config_form_2.type }}
+                        </div>
+                    </div>
+                    <div class="form-group login_field">
+                        <button name="config_2" class="btn button_color" type="submit">Generate Quiz</button>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
