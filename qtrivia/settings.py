@@ -95,6 +95,8 @@ DATABASES = {
         'NAME': 'qtrivia_db',
         'USER': 'qtrivia',
         'PASSWORD': 'qwerty',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
